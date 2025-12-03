@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4 Pics 1 Word</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-image: url("asset/background.png"); /* Path to your image */
+        background-repeat: no-repeat; /* Prevent the image from repeating */
+        background-size: cover; /* Scale the image to cover the entire background */
+        background-attachment: fixed; /* Keep the image fixed while scrolling */
+        }
+
+        .container {
+        background: #ecd9ff;
+        background: radial-gradient(circle,rgb(90, 33, 146) 10%, rgba(23, 4, 51, 1) 36%, rgba(80, 33, 105, 1) 71%, rgba(33, 50, 87, 1) 95%);
+        border-radius: 0px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        width: 75%;
+        max-width: 10090px;
+        text-align: center;
+            }
+
+        .image-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .image-container img {
+            width: 350px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            
+        }
+
+        input[type="text"] {
+            padding: 20px;
+            margin-bottom: 20px;
+            width: 50%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 20px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 20%;
+            
+        }
+        h1{
+            color: white;
+        }
+
+        button:hover {
+            background-color: #cf365c;
+        }
+
+        #score {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: white;
+        } 
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>4 Pics 1 Word</h1>
+        <div class="image-container">
+            <img src="asset/eye.jpg" alt="Image 1"> 
+            <img src="asset/eyes.jpg" alt="Image 2">
+            <img src="asset/glass.webp" alt="Image 3">
+            <img src="asset/glsses.jpg" alt="Image 4">
+            
+        </div>
+
+      
+        <div id="score">Score: 0</div>
+        <input type="text" id="answer" placeholder="Enter your answer">
+        <button onclick="checkAnswer()">Submit</button>
+        <div id="gameRecord"></div>
+    </div>
+
+    <script>
+        let score = 0;
+        let timerInterval;
+        let currentQuestionIndex = 0;
+
+        // Replace with your actual image paths and answers
+        const questions = [
+            { images: ["asset/eye.jpg", "asset/eyes.jpg", "asset/glass.webp", "asset/glsses.jpg"], answer: "eyeglass" },
+            { images: ["1asset/Squid-Game-Unleashed-video-game.webp", "2", "3", "4"], answer: "eyeglass" },
+            { images: ["1asset/Squid-Game-Unleashed-video-game.webp", "2", "3", "4"], answer: "ballpen" },
+            // Add more questions here
+        ];
+
+        function loadQuestion() {
+            const question = questions[currentQuestionIndex];
+            const images = document.querySelectorAll('.image-container img');
+            for (let i = 0; i < images.length; i++) {
+                images[i].src = question.images[i];
+            }
+        }
+
+        function checkAnswer() {
+            const answer = document.getElementById("answer").value.toLowerCase();
+            if (answer === questions[currentQuestionIndex].answer) {
+                score++;
+                document.getElementById("score").innerText = "Score: " + score;
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    loadQuestion();
+                    resetTimer();
+                    
+                    document.getElementById("answer").value = ""; // Clear the input
+                } else {
+                    endGame();
+                }
+            } else {
+                startTimer();
+            }
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            document.getElementById("timer").innerText = "Time: " + timeLeft;
+            timerInterval = setInterval(function() {
+                timeLeft--;
+                document.getElementById("timer").innerText = "Time: " + timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            document.getElementById("timer").innerText = "Time: " + timeLeft;
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+            alert("Game Over! Your final score is " + score);
+            document.getElementById("gameRecord").innerText = "Your last score: " + score;
+            // You can also store the score in local storage or send it to a server
+        }
+
+        function goToMenu() {
+            // Implement your menu navigation here
+            alert("Back to Menu (Not implemented)");
+        }
+
+        // Initial load
+        loadQuestion();
+    </script>
+</body>
+</html>
