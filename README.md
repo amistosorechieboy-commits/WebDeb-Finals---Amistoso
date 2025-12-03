@@ -1,2 +1,2 @@
-# WebDeb-Finals---Amistoso
+# WebDeb-Finals-Amistoso
 WebDeb Project
